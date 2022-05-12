@@ -1,0 +1,24 @@
+schemaVersion: "2.0.0"
+
+fileExistenceTests:
+  - name: kyve-near-node binary"
+    path: "/kyve-near/kyve-node"
+    shouldExist: true
+    permissions: "-rwxr-xr-x"
+    uid: 1000
+    gid: 1000
+
+metadataTest:
+  labels:
+    - key: maintainer
+      value: "Florian Lopes <florian.lopes@outlook.com>"
+  env:
+    - key: KYVE_INTEGRATION_VERSION
+      value: "v0.0.1"
+    - key: KYVE_INTEGRATION_HOME
+      value: "/kyve-near"
+    - key: ARWEAVE_HOME
+      value: "/arweave"
+  volumes: ["/arweave"]
+  workdir: "/kyve-near"
+  entrypoint: ["./kyve-node"]

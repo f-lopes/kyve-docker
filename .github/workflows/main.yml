@@ -1,0 +1,121 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*.*.*'
+    pull_request:
+      branches:
+        - main
+    paths-ignore:
+        - '**/README.md'
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+
+  pre-build:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v3
+    - name: Lint Dockerfile
+      uses: hadolint/hadolint-action@v2.1.0
+      with:
+        dockerfile: Dockerfile
+
+  kyve-integration-node:
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        include:
+          - kyve-runtime: evm
+            version: v1.0.5
+          - kyve-runtime: zilliqa
+            version: v0.0.0
+          - kyve-runtime: solana
+            version: v0.0.1
+          - kyve-runtime: celo
+            version: v0.0.0
+          - kyve-runtime: near
+            version: v0.0.1
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      id: buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Extract metadata (tags, labels) for Docker
+      id: docker_metadata
+      uses: docker/metadata-action@v4
+      with:
+        images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/kyve-${{ matrix.kyve-runtime }}-node
+
+    - name: Build Kyve integration node Docker image
+      id: kyve_integration_build_docker_image
+      uses: docker/build-push-action@v3
+      with:
+        build-args: |
+          KYVE_INTEGRATION=${{ matrix.kyve-runtime }}
+          KYVE_INTEGRATION_VERSION=${{ matrix.version }}
+        load: true
+        target: kyve-integration-node
+        tags: ${{ github.repository_owner }}/kyve-${{ matrix.kyve-runtime }}-node:test
+
+    - name: Test built image using Container Structure Tests Kyve integration node Docker image
+      uses: brpaz/structure-tests-action@v1.1.2
+      with:
+        image: ${{ github.repository_owner }}/kyve-${{ matrix.kyve-runtime }}-node:test
+        configFile: tests/kyve-${{ matrix.kyve-runtime }}-config.yml
+
+    - name: Analyze built image using Dive
+      uses: yuichielectric/dive-action@0.0.4
+      with:
+        image: ${{ github.repository_owner }}/kyve-${{ matrix.kyve-runtime }}-node:test
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Check for image vulnerabilities using Trivy
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: ${{ github.repository_owner }}/kyve-${{ matrix.kyve-runtime }}-node:test
+        format: table
+        exit-code: 1
+        ignore-unfixed: true
+        severity: CRITICAL
+
+    - name: Smoke tests
+      run: docker run --rm -t ${{ github.repository_owner }}/kyve-${{ matrix.kyve-runtime }}-node:test --version
+
+    - name: Log in to the Container registry
+      uses: docker/login-action@v2
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Push Kyve integration node Docker image
+      id: kyve_integration_push_docker_image
+      uses: docker/build-push-action@v3
+      with:
+        build-args: |
+          KYVE_INTEGRATION=${{ matrix.kyve-runtime }}
+          KYVE_INTEGRATION_VERSION=${{ matrix.version }}
+        push: true
+        target: kyve-integration-node
+        tags: ${{ env.REGISTRY }}/${{ github.repository_owner }}/kyve-${{ matrix.kyve-runtime }}-node:main-kyve-${{ matrix.kyve-runtime }}-${{ matrix.version }}
+        labels: ${{ steps.docker_metadata.outputs.labels }}
+
+    - name: Push Kyve integration node Docker image (release)
+      id: kyve_integration_push_docker_image_release
+      if: startsWith(github.ref, 'refs/tags/v')
+      uses: docker/build-push-action@v3
+      with:
+        build-args: |
+          KYVE_INTEGRATION=${{ matrix.kyve-runtime }}
+          KYVE_INTEGRATION_VERSION=${{ matrix.version }}
+        push: true
+        target: kyve-integration-node
+        tags: ${{ env.REGISTRY }}/${{ github.repository_owner }}/kyve-${{ matrix.kyve-runtime }}-node:${{ github.ref_name }}-kyve-${{ matrix.kyve-runtime }}-${{ matrix.version }},${{ env.REGISTRY }}/${{ github.repository_owner }}/kyve-${{ matrix.kyve-runtime }}-node:latest
+        labels: ${{ steps.docker_metadata.outputs.labels }}
