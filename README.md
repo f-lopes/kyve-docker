@@ -9,6 +9,7 @@ The currently supported Kyve runtimes are:
 * kyve-solana: `v0.0.1`
 * kyve-celo: `v0.0.0`
 * kyve-cosmos: `v0.0.0`
+* kyve-injective: `v0.0.0`
 
 :information_source: [Kyve organisation](https://github.com/kyve-org/)
 
@@ -49,6 +50,11 @@ docker run --rm -it ghcr.io/f-lopes/kyve-celo-node:v1.0.0-kyve-celo-v0.0.0 --ver
 ```shell
 docker run --rm -it ghcr.io/f-lopes/kyve-cosmos-node:v1.0.0-kyve-cosmos-v0.0.0 --version
 ```
+##### Injective
+```shell
+docker run --rm -it ghcr.io/f-lopes/kyve-injective-node:v1.0.0-kyve-injective-v0.0.0 --version
+```
+
 
 ```shell
 docker run -d --name kyve-evm-node -v <host_directory_containing_arweave_keyfile>:/arweave/ ghcr.io/f-lopes/kyve-evm-node:1.1.0-kyve-evm-1.0.5 -p <pool_id> \
