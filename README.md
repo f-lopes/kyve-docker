@@ -26,23 +26,23 @@ The currently supported Kyve runtimes are:
 
 ##### EVM
 ```shell
-docker run --rm -it ghcr.io/f-lopes/kyve-docker:v1.0.0-kyve-evm-v1.0.5 --version
+docker run --rm -it ghcr.io/f-lopes/kyve-evm-node:v1.0.0-kyve-evm-v1.0.5 --version
 ```
 ##### Near
 ```shell
-docker run --rm -it ghcr.io/f-lopes/kyve-docker:v1.0.0-kyve-near-v0.0.1 --version
+docker run --rm -it ghcr.io/f-lopes/kyve-near-node:v1.0.0-kyve-near-v0.0.1 --version
 ```
 ##### Zilliqa
 ```shell
-docker run --rm -it ghcr.io/f-lopes/kyve-docker:v1.0.0-kyve-zilliqa-v0.0.0 --version
+docker run --rm -it ghcr.io/f-lopes/kyve-zilliqa-node:v1.0.0-kyve-zilliqa-v0.0.0 --version
 ```
 ##### Solana
 ```shell
-docker run --rm -it ghcr.io/f-lopes/kyve-docker:v1.0.0-kyve-solana-v0.0.1 --version
+docker run --rm -it ghcr.io/f-lopes/kyve-solana-node:v1.0.0-kyve-solana-v0.0.1 --version
 ```
 ##### Celo
 ```shell
-docker run --rm -it ghcr.io/f-lopes/kyve-docker:v1.0.0-kyve-celo-v0.0.0 --version
+docker run --rm -it ghcr.io/f-lopes/kyve-celo-node:v1.0.0-kyve-celo-v0.0.0 --version
 ```
 
 ```shell
