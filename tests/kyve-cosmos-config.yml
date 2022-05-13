@@ -1,8 +1,8 @@
 schemaVersion: "2.0.0"
 
 fileExistenceTests:
-  - name: kyve-celo-node binary"
-    path: "/kyve-celo/kyve-node"
+  - name: kyve-cosmos-node binary"
+    path: "/kyve-cosmos/kyve-node"
     shouldExist: true
     permissions: "-rwxr-xr-x"
     uid: 1000
@@ -16,9 +16,9 @@ metadataTest:
     - key: KYVE_INTEGRATION_VERSION
       value: "v0.0.0"
     - key: KYVE_INTEGRATION_HOME
-      value: "/kyve-celo"
+      value: "/kyve-cosmos"
     - key: ARWEAVE_HOME
       value: "/arweave"
   volumes: ["/arweave"]
-  workdir: "/kyve-celo"
+  workdir: "/kyve-cosmos"
   entrypoint: ["./kyve-node"]

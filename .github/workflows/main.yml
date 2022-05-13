@@ -40,6 +40,8 @@ jobs:
             version: v0.0.0
           - kyve-runtime: near
             version: v0.0.1
+          - kyve-runtime: cosmos
+            version: v0.0.0
     steps:
     - uses: actions/checkout@v3
 

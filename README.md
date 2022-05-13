@@ -8,6 +8,7 @@ The currently supported Kyve runtimes are:
 * kyve-zilliqa: `v0.0.0`
 * kyve-solana: `v0.0.1`
 * kyve-celo: `v0.0.0`
+* kyve-cosmos: `v0.0.0`
 
 :information_source: [Kyve organisation](https://github.com/kyve-org/)
 
@@ -43,6 +44,10 @@ docker run --rm -it ghcr.io/f-lopes/kyve-solana-node:v1.0.0-kyve-solana-v0.0.1 -
 ##### Celo
 ```shell
 docker run --rm -it ghcr.io/f-lopes/kyve-celo-node:v1.0.0-kyve-celo-v0.0.0 --version
+```
+##### Cosmos
+```shell
+docker run --rm -it ghcr.io/f-lopes/kyve-cosmos-node:v1.0.0-kyve-cosmos-v0.0.0 --version
 ```
 
 ```shell
