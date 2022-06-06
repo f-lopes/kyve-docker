@@ -31,17 +31,17 @@ jobs:
       matrix:
         include:
           - kyve-runtime: evm
-            version: v1.0.5
+            version: v1.1.0
           - kyve-runtime: zilliqa
-            version: v0.0.0
+            version: v0.1.0
           - kyve-runtime: solana
-            version: v0.0.1
+            version: v0.1.0
           - kyve-runtime: celo
-            version: v0.0.0
+            version: v0.1.0
           - kyve-runtime: near
-            version: v0.0.1
+            version: v0.1.0
           - kyve-runtime: cosmos
-            version: v0.0.0
+            version: v0.1.0
           - kyve-runtime: injective
             version: v0.0.0
     steps:
