@@ -4,7 +4,7 @@
 
 The currently supported Kyve runtimes are:
 * kyve-evm: `v1.1.0`
-* kyve-near: `v0.0.1`
+* kyve-near: `v0.1.0`
 * kyve-zilliqa: `v0.1.0`
 * kyve-solana: `v0.1.0`
 * kyve-celo: `v0.1.0`
