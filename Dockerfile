@@ -4,7 +4,7 @@ LABEL maintainer="Florian Lopes <florian.lopes@outlook.com>"
 
 ARG KYVE_INTEGRATION
 ARG KYVE_INTEGRATION_VERSION
-ARG KYVE_INTEGRATION_BINARY=kyve-${KYVE_INTEGRATION}-linux.zip
+ARG KYVE_INTEGRATION_BINARY=kyve-linux.zip
 ARG KYVE_INTEGRATION_RELEASE_URL="https://github.com/kyve-org/${KYVE_INTEGRATION}/releases/download/${KYVE_INTEGRATION_VERSION}/${KYVE_INTEGRATION_BINARY}"
 
 ENV KYVE_INTEGRATION_VERSION=${KYVE_INTEGRATION_VERSION} \
@@ -13,7 +13,7 @@ ENV KYVE_INTEGRATION_VERSION=${KYVE_INTEGRATION_VERSION} \
 RUN mkdir ${KYVE_INTEGRATION_HOME} && \
     wget -q ${KYVE_INTEGRATION_RELEASE_URL} && \
     unzip ${KYVE_INTEGRATION_BINARY} -d ${KYVE_INTEGRATION_HOME} && \
-    chmod +x ${KYVE_INTEGRATION_HOME}/kyve-${KYVE_INTEGRATION}-linux && \
+    chmod +x ${KYVE_INTEGRATION_HOME}/kyve-linux && \
     rm -rf ${KYVE_INTEGRATION_BINARY}
 
 FROM gcr.io/distroless/nodejs:16 as kyve-integration-node
@@ -28,7 +28,7 @@ ENV KYVE_INTEGRATION=${KYVE_INTEGRATION} \
     KYVE_INTEGRATION_HOME="/kyve-${KYVE_INTEGRATION}" \
     ARWEAVE_HOME="/arweave"
 
-COPY --chown=1000:1000 --from=kyve-integration-binary ${KYVE_INTEGRATION_HOME}/kyve-${KYVE_INTEGRATION}-linux ${KYVE_INTEGRATION_HOME}/kyve-node
+COPY --chown=1000:1000 --from=kyve-integration-binary ${KYVE_INTEGRATION_HOME}/kyve-linux ${KYVE_INTEGRATION_HOME}/kyve-node
 
 USER 1000
 
